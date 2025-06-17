@@ -22,10 +22,11 @@ export default defineConfig({
     
   
   testDir: './tests/e2etests',
-  testMatch: '**/*.js',
+  testMatch: '**/aems_wo_test.spec.js',
+  //testMatch: '**/*.spec.js',
   timeout: 60000,
   /* Run tests in files in parallel */
-  fullyParallel: true,
+  fullyParallel: false,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
@@ -38,22 +39,25 @@ export default defineConfig({
   use: {
 
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: 'https://www.saucedemo.com/v1/',
+    baseURL: 'https://opensource-demo.orangehrmlive.com/web/index.php/auth/login',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    trace: 'on',
     headless: false,
     actionTimeout: 10000,       // ⏳ Max time each Playwright action (click, fill, etc) can take
     navigationTimeout: 15000,   // 🌐 Max time for page.goto(), page.reload(), etc.
-    screenshot: 'only-on-failure',
-    video: 'retain-on-failure'
+    screenshot: 'on',
+    video: 'on'
   },
 
   /* Configure projects for major browsers */
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { ...devices['Desktop Chrome'] ,
+        viewport: { width: 1536, height: 695 },
+
+      },
     }
 
     // {

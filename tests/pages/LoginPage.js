@@ -1,3 +1,4 @@
+import { expect } from '@playwright/test';
 export class LoginPage{
 
 
@@ -7,9 +8,10 @@ export class LoginPage{
     constructor(page)
     {
         this.page = page;
-        this.usernameinput = page.locator("#user-name");
-        this.passwordinput = page.locator("//input[@id='password']");
-        this.loginbutton = page.locator("//input[@id='login-button']");
+        this.usernameinput = page.locator("//input[@name='username']");
+        this.passwordinput = page.locator("//input[@name='password']");
+        this.loginbutton = page.locator("//button[@type='submit']");
+        this.error_message = page.locator("//p[@class='oxd-text oxd-text--p oxd-alert-content-text']");
 
     }
 
@@ -17,6 +19,11 @@ export class LoginPage{
     {
         await this.page.goto("/");
 
+    }
+
+    async check_if_logout_successful()
+    {
+        await expect(this.page).toHaveURL(/login/);
     }
 
     async enterUsername(username)
@@ -31,7 +38,21 @@ export class LoginPage{
 
     async clickLoginButton()
     {
-        await this.loginbutton.click();
+        await this.loginbutton.click({timeout: 5000});
+    }
+
+    async check_error_message_visible()
+    {
+        const error_check =await this.error_message.isVisible({timeout: 5000});
+        return error_check;
+    }
+
+    async check_error_message_text(expectedText)
+    {
+        const errorText = await this.error_message.textContent();
+        if (errorText !== expectedText) {
+            throw new Error(`Expected error message to be "${expectedText}", but got "${errorText}"`);
+        }
     }
 
     async perform_login(username, password)

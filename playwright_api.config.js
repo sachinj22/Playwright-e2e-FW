@@ -22,7 +22,7 @@ export default defineConfig({
     
   
   testDir: './tests/apitests',
-  testMatch: '**/*.js',
+  testMatch: '**/sample_aems_api.spec.js',
   timeout: 60000,
   /* Run tests in files in parallel */
   fullyParallel: true,

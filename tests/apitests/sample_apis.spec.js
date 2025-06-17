@@ -16,7 +16,7 @@ test("Post call", async ({request}) => {
         "job": "leader"
     };
     const headers = {
-      'x-api-key': 'xx'
+      'x-api-key': 'reqres-free-v1'
     };
 
     const response = await request.post('https://reqres.in/api/users', { data: requestBody, headers });
